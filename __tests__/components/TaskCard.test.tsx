@@ -8,6 +8,9 @@ const mockTask = {
   status: 'pending' as const,
 };
 
+// Se aísla onDelete con jest.fn() porque es una dependencia externa al
+// componente. Así se verifica que TaskCard invoca el callback correcto
+// sin acoplar el test a esa lógica externa.
 const mockOnDelete = jest.fn();
 
 describe('TaskCard', () => {

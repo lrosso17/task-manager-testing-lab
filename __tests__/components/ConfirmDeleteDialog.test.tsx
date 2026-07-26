@@ -3,6 +3,10 @@ import { render, screen, fireEvent } from '@testing-library/react-native';
 import { ConfirmDeleteDialog } from '../../src/components/ConfirmDeleteDialog';
 
 const noop = () => {};
+// onConfirm/onCancel se mockean con jest.fn() en los tests que verifican
+// interacción, ya que son callbacks provistos por la pantalla contenedora:
+// aislarlos permite comprobar que el diálogo dispara la acción correcta
+// sin depender de la lógica de eliminación real.
 
 describe('ConfirmDeleteDialog', () => {
   it('muestra el texto "Eliminar tarea" cuando el diálogo está visible', async () => {
