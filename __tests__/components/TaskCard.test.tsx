@@ -1,43 +1,55 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react-native';
 import { TaskCard } from '../../src/components/TaskCard';
+import { Task } from '../../src/types';
 
-const mockTask = {
-  id: '1',
-  title: 'Estudiar React Native con Testing Library',
-  status: 'pending' as const,
-};
+const tareaPendiente: Task = { id: 'c1', title: 'Diseñar wireframes', status: 'pending' };
+const tareaCompletada: Task = { id: 'c2', title: 'Diseñar wireframes', status: 'completed' };
 
-// Se aísla onDelete con jest.fn() porque es una dependencia externa al
-// componente. Así se verifica que TaskCard invoca el callback correcto
-// sin acoplar el test a esa lógica externa.
-const mockOnDelete = jest.fn();
+// onDelete es una dependencia inyectada por el componente padre (la pantalla
+// que gestiona la lista); se reemplaza con jest.fn() para comprobar que
+// TaskCard la invoca con el id correcto, sin acoplar el test a cómo el
+// padre decide borrar la tarea.
+const onDeleteSpy = jest.fn();
 
 describe('TaskCard', () => {
   beforeEach(() => {
-    mockOnDelete.mockClear();
+    onDeleteSpy.mockClear();
   });
 
-  it('muestra el título de la tarea', async () => {
-    await render(<TaskCard task={mockTask} onDelete={mockOnDelete} />);
-    expect(screen.getByText('Estudiar React Native con Testing Library')).toBeTruthy();
+  it('renderiza el título recibido por props', async () => {
+    await render(<TaskCard task={tareaPendiente} onDelete={onDeleteSpy} />);
+    expect(screen.getByText('Diseñar wireframes')).toBeTruthy();
   });
 
-  it('muestra el estado "Pendiente" para tareas pendientes', async () => {
-    await render(<TaskCard task={mockTask} onDelete={mockOnDelete} />);
+  it('muestra la etiqueta de "Pendiente" cuando el estado de la tarea es pending', async () => {
+    await render(<TaskCard task={tareaPendiente} onDelete={onDeleteSpy} />);
     expect(screen.getByText('○ Pendiente')).toBeTruthy();
+    expect(screen.queryByText('✓ Completada')).toBeNull();
   });
 
-  it('muestra el estado "Completada" para tareas completadas', async () => {
-    const completedTask = { ...mockTask, status: 'completed' as const };
-    await render(<TaskCard task={completedTask} onDelete={mockOnDelete} />);
+  it('muestra la etiqueta de "Completada" cuando el estado de la tarea es completed', async () => {
+    await render(<TaskCard task={tareaCompletada} onDelete={onDeleteSpy} />);
     expect(screen.getByText('✓ Completada')).toBeTruthy();
+    expect(screen.queryByText('○ Pendiente')).toBeNull();
   });
 
-  it('llama a onDelete con el id correcto al presionar "Eliminar"', async () => {
-    await render(<TaskCard task={mockTask} onDelete={mockOnDelete} />);
+  it('expone un rol de accesibilidad de tipo "button" en el contenedor', async () => {
+    await render(<TaskCard task={tareaPendiente} onDelete={onDeleteSpy} />);
+    expect(screen.getByRole('button')).toBeTruthy();
+  });
+
+  it('invoca a onDelete exactamente una vez y con el id de la tarea al presionar "Eliminar"', async () => {
+    await render(<TaskCard task={tareaPendiente} onDelete={onDeleteSpy} />);
+
     await fireEvent.press(screen.getByText('Eliminar'));
-    expect(mockOnDelete).toHaveBeenCalledWith('1');
-    expect(mockOnDelete).toHaveBeenCalledTimes(1);
+
+    expect(onDeleteSpy).toHaveBeenCalledTimes(1);
+    expect(onDeleteSpy).toHaveBeenCalledWith('c1');
+  });
+
+  it('genera una etiqueta accesible de eliminación que incluye el título de la tarea', async () => {
+    await render(<TaskCard task={tareaPendiente} onDelete={onDeleteSpy} />);
+    expect(screen.getByLabelText('Eliminar tarea Diseñar wireframes')).toBeTruthy();
   });
 });

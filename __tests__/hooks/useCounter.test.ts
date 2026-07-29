@@ -2,43 +2,54 @@ import { renderHook, act } from '@testing-library/react-native';
 import { useCounter } from '../../src/hooks/useCounter';
 
 describe('useCounter', () => {
-  it('inicia con el valor por defecto (0)', async () => {
+  it('usa 0 como valor inicial cuando no se pasa un argumento', async () => {
     const { result } = await renderHook(() => useCounter());
     expect(result.current.count).toBe(0);
   });
 
-  it('inicia con el valor proporcionado', async () => {
-    const { result } = await renderHook(() => useCounter(10));
-    expect(result.current.count).toBe(10);
+  it('respeta el valor inicial personalizado recibido por parámetro', async () => {
+    const { result } = await renderHook(() => useCounter(25));
+    expect(result.current.count).toBe(25);
   });
 
-  it('incrementa el contador en 1', async () => {
-    const { result } = await renderHook(() => useCounter());
+  it('incrementa el valor de forma acumulativa en llamadas sucesivas', async () => {
+    const { result } = await renderHook(() => useCounter(0));
+
     await act(() => {
       result.current.increment();
     });
     expect(result.current.count).toBe(1);
+
+    await act(() => {
+      result.current.increment();
+      result.current.increment();
+    });
+    expect(result.current.count).toBe(3);
   });
 
-  it('decrementa el contador en 1', async () => {
-    const { result } = await renderHook(() => useCounter(5));
+  it('permite que el contador tome valores negativos al decrementar', async () => {
+    const { result } = await renderHook(() => useCounter(1));
+
     await act(() => {
       result.current.decrement();
+      result.current.decrement();
     });
-    expect(result.current.count).toBe(4);
+    expect(result.current.count).toBe(-1);
   });
 
-  it('reinicia el contador al valor inicial', async () => {
-    const { result } = await renderHook(() => useCounter(10));
+  it('reset() vuelve siempre al valor inicial, sin importar cuánto se haya modificado', async () => {
+    const { result } = await renderHook(() => useCounter(7));
+
     await act(() => {
       result.current.increment();
       result.current.increment();
+      result.current.decrement();
     });
-    expect(result.current.count).toBe(12);
+    expect(result.current.count).toBe(8);
 
     await act(() => {
       result.current.reset();
     });
-    expect(result.current.count).toBe(10);
+    expect(result.current.count).toBe(7);
   });
 });
