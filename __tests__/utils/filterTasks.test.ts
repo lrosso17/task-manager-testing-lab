@@ -1,6 +1,10 @@
 import { filterTasksByStatus } from '../../src/utils/filterTasks';
 import { Task } from '../../src/types';
 
+// Pruebas de filterTasksByStatus: valida el filtrado de tareas
+// por estado, el comportamiento con listas vacías y la
+// validación de estados no permitidos.
+
 const tasks: Task[] = [
   { id: '1', title: 'Enviar informe', status: 'completed' },
   { id: '2', title: 'Revisar correos', status: 'pending' },
@@ -22,8 +26,18 @@ describe('filterTasksByStatus', () => {
     expect(filterTasksByStatus([], 'pending')).toEqual([]);
   });
 
+  it('retorna un arreglo vacío si ninguna tarea coincide con el estado', () => {
+    const soloCompletadas: Task[] = [{ id: '9', title: 'Ya hecha', status: 'completed' }];
+    expect(filterTasksByStatus(soloCompletadas, 'pending')).toEqual([]);
+  });
+
   it('lanza un error si el estado no es válido', () => {
     // @ts-expect-error se prueba un valor fuera del tipo permitido
     expect(() => filterTasksByStatus(tasks, 'urgente')).toThrow('Estado inválido: urgente');
+  });
+
+  it('lanza un error si el estado llega como null', () => {
+    // @ts-expect-error se prueba un valor nulo, no contemplado en el tipo
+    expect(() => filterTasksByStatus(tasks, null)).toThrow();
   });
 });

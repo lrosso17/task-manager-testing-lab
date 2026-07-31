@@ -1,5 +1,8 @@
 import { validateTaskTitle } from '../../src/utils/validateTask';
 
+// Pruebas de validateTaskTitle: valida las reglas de negocio
+// para el título de una tarea, verificando casos válidos,
+// entradas vacías y restricciones de longitud.
 describe('validateTaskTitle', () => {
   it('retorna null cuando el título es válido', () => {
     expect(validateTaskTitle('Comprar boletos')).toBeNull();
