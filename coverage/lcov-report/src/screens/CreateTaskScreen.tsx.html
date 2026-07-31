@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">90% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>9/10</span>
+                <span class='fraction'>0/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.66% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>4/6</span>
+                <span class='fraction'>0/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">75% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/4</span>
+                <span class='fraction'>0/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">87.5% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>7/8</span>
+                <span class='fraction'>0/8</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -117,13 +117,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -146,8 +146,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -161,14 +161,14 @@ import { TaskList } from '../components/TaskList';
 import { ConfirmDeleteDialog } from '../components/ConfirmDeleteDialog';
 import { useCreateTask } from '../hooks/useCreateTask';
 &nbsp;
-export function CreateTaskScreen() {
-  const { status, tasks, submit, removeTask } = useCreateTask();
-  const insets = useSafeAreaInsets();
-  const [pendingDelete, setPendingDelete] = useState&lt;string | null&gt;(null);
+export function <span class="fstat-no" title="function not covered" >CreateTaskScreen(</span>) {
+  const { status, tasks, submit, removeTask } = <span class="cstat-no" title="statement not covered" >useCreateTask();</span>
+  const insets = <span class="cstat-no" title="statement not covered" >useSafeAreaInsets();</span>
+  const [pendingDelete, setPendingDelete] = <span class="cstat-no" title="statement not covered" >useState&lt;string | null&gt;(null);</span>
 &nbsp;
-  const pendingTask = tasks.find((t) =&gt; t.id === pendingDelete);
+  const pendingTask = <span class="cstat-no" title="statement not covered" >tasks.find(<span class="fstat-no" title="function not covered" >(t</span>) =&gt; <span class="cstat-no" title="statement not covered" >t.id === pendingDelete)</span>;</span>
 &nbsp;
-  return (
+<span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;View
       className="flex-1 gap-4 bg-gray-50 p-4"
       style={{ paddingTop: insets.top + 16, paddingBottom: insets.bottom + 16 }}
@@ -181,7 +181,7 @@ export function CreateTaskScreen() {
         &lt;/Text&gt;
       )}
       {status === 'error' &amp;&amp; (
-<span class="branch-1 cbranch-no" title="branch not covered" >        &lt;Text className="rounded-lg bg-red-100 px-4 py-3 text-sm font-medium text-red-800"&gt;</span>
+        &lt;Text className="rounded-lg bg-red-100 px-4 py-3 text-sm font-medium text-red-800"&gt;
           Error al crear la tarea
         &lt;/Text&gt;
       )}
@@ -190,9 +190,9 @@ export function CreateTaskScreen() {
         visible={pendingDelete !== null}
         taskTitle={pendingTask?.title}
         onCancel={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >setPendingDelete(null)}</span>
-        onConfirm={() =&gt; {
-          <span class="missing-if-branch" title="else path not taken" >E</span>if (pendingDelete) removeTask(pendingDelete);
-          setPendingDelete(null);
+        onConfirm={<span class="fstat-no" title="function not covered" >()</span> =&gt; {
+<span class="cstat-no" title="statement not covered" >          if (pendingDelete) <span class="cstat-no" title="statement not covered" >removeTask(pendingDelete);</span></span>
+<span class="cstat-no" title="statement not covered" >          setPendingDelete(null);</span>
         }}
       /&gt;
     &lt;/View&gt;
@@ -205,7 +205,7 @@ export function CreateTaskScreen() {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-07-29T23:32:17.819Z
+                at 2026-07-31T00:10:38.243Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
