@@ -1,6 +1,8 @@
 import { Task } from '../types';
 
-const API_URL = 'https://api.taskmanager.com';
+const API_URL = process.env.EXPO_PUBLIC_API_URL || 'https://api.taskmanager.com';
+//const API_URL = 'https://api.taskmanager.com';
+//const API_URL = 'http://10.0.2.2:3001';
 
 export async function fetchTasks(): Promise<Task[]> {
   const res = await fetch(`${API_URL}/tasks`);

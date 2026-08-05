@@ -1,0 +1,18 @@
+appId: com.taskmanager.app
+---
+# 1. Abrir la app y entrar al flujo de tareas vía API
+- launchApp:
+    clearState: true
+- assertVisible: "Task Manager"
+- tapOn: "Tareas vía API"
+- assertVisible: "Tareas (API)"
+- assertVisible: "No hay tareas aún"
+
+# 2. Crear una tarea
+- tapOn:
+    id: "input-titulo-api"
+- inputText: "Tarea creada desde Maestro"
+- tapOn: "Guardar"
+
+# 3. Verificar que aparece en la lista
+- assertVisible: "Tarea creada desde Maestro"

@@ -1,0 +1,25 @@
+appId: com.taskmanager.app
+---
+# 1. Abrir la app y entrar al flujo de tareas vía API
+- launchApp:
+    clearState: true
+- assertVisible: "Task Manager"
+- tapOn: "Tareas vía API"
+- assertVisible: "Tareas (API)"
+
+# 2. Verificar estado inicial sin tareas
+- assertVisible: "No hay tareas aún"
+
+# 3. Intentar guardar con el campo vacío no debe crear ninguna tarea
+- tapOn: "Guardar"
+- assertVisible: "No hay tareas aún"
+
+# 4. Escribir y guardar una tarea válida
+- tapOn:
+    id: "input-titulo-api"
+- inputText: "Segunda tarea Maestro"
+- tapOn: "Guardar"
+- assertVisible: "Segunda tarea Maestro"
+
+# 5. Confirmar que ya no está vacío
+- assertNotVisible: "No hay tareas aún"

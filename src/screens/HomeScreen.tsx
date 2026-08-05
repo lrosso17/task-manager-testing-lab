@@ -16,6 +16,12 @@ const ACCESOS: { href: string; titulo: string; descripcion: string; className: s
     descripcion: 'Datos de usuario, envío y pago',
     className: 'bg-emerald-600 active:bg-emerald-700',
   },
+  {
+  href: '/tasks-api',
+  titulo: 'Tareas vía API',
+  descripcion: 'Listar y crear tareas contra el backend',
+  className: 'bg-purple-600 active:bg-purple-700',
+  },
 ];
 
 export function HomeScreen() {
