@@ -1,13 +1,19 @@
-name: Test Suite
+name: Tests y Cobertura
 
+# Se ejecuta automáticamente en cada push y pull request hacia estas ramas.
 on:
   push:
-    branches: [main, develop]
+    branches:
+      - main
+      - actividad-4
   pull_request:
-    branches: [main]
+    branches:
+      - main
+      - actividad-4
 
 jobs:
   test:
+    name: Suite completa (unitarias, componentes, integración, contrato)
     runs-on: ubuntu-latest
 
     steps:
@@ -21,7 +27,19 @@ jobs:
           cache: 'npm'
 
       - name: Instalar dependencias
-        run: npm ci --legacy-peer-deps
+        run: npm ci
 
-      - name: Ejecutar pruebas con cobertura
-        run: npx jest --coverage --ci
+      - name: Ejecutar suite de pruebas con cobertura
+        # jest.config.js define coverageThreshold en 80% (branches, functions,
+        # lines, statements). Si algún porcentaje de cobertura queda por
+        # debajo del umbral, `jest` retorna código de salida distinto de 0 y
+        # este step (y por lo tanto el job) falla automáticamente.
+        run: npm run test:coverage -- --ci
+
+      - name: Subir reporte de cobertura como artefacto
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage/
+          retention-days: 14
