@@ -27,7 +27,12 @@ jobs:
           cache: 'npm'
 
       - name: Instalar dependencias
-        run: npm ci
+        # --legacy-peer-deps: el proyecto tiene un conflicto de peer
+        # dependencies entre react@19.2.3 y react-dom@19.2.8 (dependencias
+        # transitivas de expo-router/@radix-ui), no relacionado con esta
+        # actividad. npm ci por defecto es estricto con peers y falla; con
+        # esta bandera resuelve igual que npm install en local.
+        run: npm ci --legacy-peer-deps
 
       - name: Ejecutar suite de pruebas con cobertura
         # jest.config.js define coverageThreshold en 80% (branches, functions,
